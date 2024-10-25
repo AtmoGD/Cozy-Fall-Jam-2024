@@ -13,6 +13,7 @@ public class BuildObject : MonoBehaviour
 {
     [SerializeField] private ObjectType objectType;
     [SerializeField] private bool isBase = false;
+    [SerializeField] private GameObject model;
     private BuildObject parentObject;
 
 

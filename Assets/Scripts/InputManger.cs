@@ -35,7 +35,7 @@ public class InputManger : MonoBehaviour
     {
         if (rightMousePressed)
         {
-            camController.ZoomCamera(context.ReadValue<float>());
+            camController.ZoomCamera(-context.ReadValue<float>());
         }
     }
 
