@@ -17,6 +17,26 @@ public class BuildObjectData : ScriptableObject
     public List<ObjectType> canBePlacedOn;
     public GameObject prefab;
     public GameObject previewPrefab;
+    public bool CanRotateX = false;
+    public int RotationXSteps = 0;
+    public float RotationXMin = 0;
+    public float RotationXMax = 360;
+    public bool CanRotateY = false;
+    public int RotationYSteps = 0;
+    public float RotationYMin = 0;
+    public float RotationYMax = 360;
+    public bool CanRotateZ = false;
+    public int RotationZSteps = 0;
+    public float RotationZMin = 0;
+    public float RotationZMax = 360;
+    public bool CanAddDistance = false;
+    public float distanceStep = 0;
+    public float MinDistance = 0;
+    public float MaxDistance = 0;
+    public bool CanScale = false;
+    public float scaleStep = 0;
+    public float MinScale = 0;
+    public float MaxScale = 0;
 
     public bool CanBePlacedOn(BuildObjectData obj)
     {

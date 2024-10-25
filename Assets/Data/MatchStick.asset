@@ -18,3 +18,23 @@ MonoBehaviour:
   prefab: {fileID: 8772303859555373256, guid: 9d86faf620c9f374d9a116f552b4f471, type: 3}
   previewPrefab: {fileID: 4898058865369402109, guid: ad045d6ccb5617c4faa3a9f36a2e0a54,
     type: 3}
+  CanRotateX: 1
+  RotationXSteps: 5
+  RotationXMin: 0
+  RotationXMax: 360
+  CanRotateY: 1
+  RotationYSteps: 5
+  RotationYMin: 0
+  RotationYMax: 360
+  CanRotateZ: 1
+  RotationZSteps: 180
+  RotationZMin: 0
+  RotationZMax: 360
+  CanAddDistance: 1
+  distanceStep: 0.02
+  MinDistance: 0
+  MaxDistance: 2
+  CanScale: 1
+  scaleStep: 0.1
+  MinScale: 0.5
+  MaxScale: 2

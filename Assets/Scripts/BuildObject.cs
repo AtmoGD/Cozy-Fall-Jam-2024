@@ -7,15 +7,13 @@ public class BuildObject : MonoBehaviour
     [SerializeField] private BuildObjectData data;
     public BuildObjectData Data => data;
     [SerializeField] private GameObject model;
+    public GameObject Model => model;
     [SerializeField] private Collider modelCollider;
-    private List<BuildObject> attachedObjects = new List<BuildObject>();
-    private BuildObject parentObject;
-
-
-    public BuildObject GetParentObject()
-    {
-        return parentObject;
-    }
+    public Collider ModelCollider => modelCollider;
+    [SerializeField] private List<BuildObject> attachedObjects = new List<BuildObject>();
+    public List<BuildObject> AttachedObjects => attachedObjects;
+    [SerializeField] private BuildObject parentObject;
+    public BuildObject ParentObject => parentObject;
 
     public void SetParentObject(BuildObject parent)
     {
