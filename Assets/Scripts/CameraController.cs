@@ -7,6 +7,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] private Camera mainCamera;
     [SerializeField] private Transform cameraLookAt;
     [SerializeField] private float yawSpeed = 2.0f;
+    [SerializeField] private float yawLerpSpeed = 2.0f;
     [SerializeField] private float pitchSpeed = 2.0f;
     [SerializeField] private float pitchMin = -90.0f;
     [SerializeField] private float pitchMax = 90.0f;
