@@ -2,25 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum ObjectType
-{
-    Base,
-    Joint,
-    Accessory
-}
-
 public class BuildObject : MonoBehaviour
 {
-    [SerializeField] private ObjectType objectType;
-    [SerializeField] private bool isBase = false;
+    [SerializeField] private BuildObjectData data;
+    public BuildObjectData Data => data;
     [SerializeField] private GameObject model;
+    [SerializeField] private Collider modelCollider;
+    private List<BuildObject> attachedObjects = new List<BuildObject>();
     private BuildObject parentObject;
 
-
-    public ObjectType GetObjectType()
-    {
-        return objectType;
-    }
 
     public BuildObject GetParentObject()
     {
@@ -30,5 +20,33 @@ public class BuildObject : MonoBehaviour
     public void SetParentObject(BuildObject parent)
     {
         parentObject = parent;
+    }
+
+    public bool CanBePlacedOn(BuildObject obj)
+    {
+        if (!data.CanBePlacedOn(obj.data))
+        {
+            return false;
+        }
+
+        if (CollidesWithAttachedChildren())
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    private bool CollidesWithAttachedChildren()
+    {
+        foreach (BuildObject obj in attachedObjects)
+        {
+            if (obj.modelCollider.bounds.Intersects(modelCollider.bounds))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

@@ -23,6 +23,11 @@ public class InputManger : MonoBehaviour
 
     public void OnLeftClick(InputAction.CallbackContext context)
     {
+        if (context.performed)
+        {
+            gameManager.ClickStart();
+        }
+
         leftMousePressed = context.ReadValueAsButton();
     }
 

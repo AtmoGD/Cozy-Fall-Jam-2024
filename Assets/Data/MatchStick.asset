@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01fb192e3634e6f43b7362989b184e7a, type: 3}
+  m_Name: MatchStick
+  m_EditorClassIdentifier: 
+  isBase: 0
+  objectType: 1
+  canBePlacedOn: 00000000
+  prefab: {fileID: 8772303859555373256, guid: 9d86faf620c9f374d9a116f552b4f471, type: 3}
+  previewPrefab: {fileID: 4898058865369402109, guid: ad045d6ccb5617c4faa3a9f36a2e0a54,
+    type: 3}

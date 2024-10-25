@@ -7,13 +7,13 @@ public class CameraController : MonoBehaviour
     [SerializeField] private Camera mainCamera;
     [SerializeField] private Transform cameraLookAt;
     [SerializeField] private float yawSpeed = 2.0f;
-    [SerializeField] private float yawLerpSpeed = 2.0f;
     [SerializeField] private float pitchSpeed = 2.0f;
     [SerializeField] private float pitchMin = -90.0f;
     [SerializeField] private float pitchMax = 90.0f;
     [SerializeField] private float zoomSpeed = 2.0f;
     [SerializeField] private float zoomMin = 1.0f;
     [SerializeField] private float zoomMax = 10.0f;
+    [SerializeField] private float rotationLerpSpeed = 2.0f;
 
     private float yaw = 0.0f;
     private float pitch = 0.0f;
@@ -43,7 +43,10 @@ public class CameraController : MonoBehaviour
     private void LateUpdate()
     {
         Quaternion rotation = Quaternion.Euler(pitch, yaw, 0.0f);
+        rotation = Quaternion.Lerp(mainCamera.transform.rotation, rotation, Time.deltaTime * rotationLerpSpeed);
+
         Vector3 position = cameraLookAt.position - (rotation * Vector3.forward * distance);
+
         mainCamera.transform.rotation = rotation;
         mainCamera.transform.position = position;
     }
