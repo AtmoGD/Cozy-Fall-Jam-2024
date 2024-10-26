@@ -10,11 +10,13 @@ public class InputManger : MonoBehaviour
 {
     [SerializeField] private int UILayer = 5;
     [SerializeField] private float mouseDeltaSpeed = 0.1f;
+    [SerializeField] private float rightClickTime = 0.2f;
     private GameManager gameManager;
     private CameraController camController;
     private CameraLookAtController camLookAtController;
 
     private bool rightMousePressed = false;
+    private float lastRightMousePressedTime = 0.0f;
     private bool middleMousePressed = false;
     private Vector2 mouseDelta = Vector2.zero;
 
@@ -46,6 +48,18 @@ public class InputManger : MonoBehaviour
         if (IsPointerOverUIElement()) return;
 
         rightMousePressed = context.ReadValueAsButton();
+
+        if (rightMousePressed)
+        {
+            lastRightMousePressedTime = Time.time;
+        }
+        else
+        {
+            if (Time.time - lastRightMousePressedTime < rightClickTime)
+            {
+                gameManager.SwitchPrefabVariant();
+            }
+        }
     }
 
     public void OnMiddleClick(InputAction.CallbackContext context)

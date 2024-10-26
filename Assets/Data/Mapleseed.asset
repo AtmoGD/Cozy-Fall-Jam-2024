@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01fb192e3634e6f43b7362989b184e7a, type: 3}
+  m_Name: Mapleseed
+  m_EditorClassIdentifier: 
+  objectType: 2
+  canBePlacedOn: 00000000
+  prefabs:
+  - {fileID: 6833328595015181367, guid: c777c1fa2b8e25a4eb4849e56959f430, type: 3}
+  - {fileID: 6604107732231671507, guid: de66533355376f44aa0a5362e18d03df, type: 3}
+  previewPrefab: {fileID: 3799170552214894945, guid: c414f07380786f348a7cc5d609bb3fd6,
+    type: 3}
+  CanRotateX: 1
+  RotationXSteps: 2
+  RotationXMin: 0
+  RotationXMax: 360
+  CanRotateY: 1
+  RotationYSteps: 2
+  RotationYMin: 0
+  RotationYMax: 360
+  CanRotateZ: 1
+  RotationZSteps: 2
+  RotationZMin: 0
+  RotationZMax: 360
+  CanAddDistance: 1
+  distanceStep: 0.01
+  MinDistance: 0
+  MaxDistance: 0
+  startDistance: 0
+  CanScale: 1
+  scaleStep: 0.01
+  MinScale: 0.1
+  MaxScale: 2

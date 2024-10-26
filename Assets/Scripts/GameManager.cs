@@ -135,6 +135,38 @@ public class GameManager : MonoBehaviour
         currentObject.ChildObjects.Add(instantietedObject);
     }
 
+    public void SwitchPrefabVariant()
+    {
+        if (!currentObject) return;
+
+        GameObject newPrefab = currentObject.Data.GetPrefab();
+        int counter = 0;
+        while (currentObject == newPrefab && counter < 10)
+        {
+            newPrefab = currentObject.Data.GetPrefab();
+            counter++;
+        }
+
+        GameObject newObj = Instantiate(newPrefab, currentObject.transform.position, currentObject.transform.rotation);
+        BuildObject newVariant = newObj.GetComponent<BuildObject>();
+
+        newVariant.Model.transform.localScale = currentObject.Model.transform.localScale;
+        newVariant.Model.transform.localPosition = currentObject.Model.transform.localPosition;
+        newVariant.Model.transform.rotation = currentObject.Model.transform.rotation;
+
+        buildObjects.Add(newVariant);
+        buildObjects.Remove(currentObject);
+
+        if (currentObject.ParentObject != null)
+        {
+            newVariant.SetParentObject(currentObject.ParentObject);
+            currentObject.ParentObject.ChildObjects.Add(newVariant);
+            currentObject.ParentObject.ChildObjects.Remove(currentObject);
+        }
+
+        Destroy(currentObject.gameObject);
+    }
+
     private void HighlightObject(BuildObject obj)
     {
         foreach (BuildObject buildObject in buildObjects)
