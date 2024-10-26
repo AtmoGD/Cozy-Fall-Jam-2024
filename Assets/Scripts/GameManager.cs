@@ -111,7 +111,6 @@ public class GameManager : MonoBehaviour
                 CollectObject();
             }
         }
-
     }
 
     private void CollectObject()
