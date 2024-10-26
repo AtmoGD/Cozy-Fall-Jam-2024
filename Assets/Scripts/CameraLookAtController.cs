@@ -10,13 +10,20 @@ public class CameraLookAtController : MonoBehaviour
     [SerializeField] private float minHeight = 1.0f;
     [SerializeField] private float maxHeight = 10.0f;
 
+    private void Start()
+    {
+        if (!target) return;
+
+        targetHeight = target.localPosition.y;
+    }
+
     private void Update()
     {
         if (target == null)
             return;
 
-        float newHeight = Mathf.Lerp(target.position.y, targetHeight, speed * Time.deltaTime);
-        target.position = new Vector3(target.position.x, newHeight, target.position.z);
+        float newHeight = Mathf.Lerp(target.localPosition.y, targetHeight, speed * Time.deltaTime);
+        target.localPosition = new Vector3(target.position.x, newHeight, target.position.z);
     }
 
     public void AddHeight(float amount)
