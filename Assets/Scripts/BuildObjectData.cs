@@ -12,10 +12,9 @@ public enum ObjectType
 [CreateAssetMenu(fileName = "BuildObjectData", menuName = "BuildObjectData", order = 1)]
 public class BuildObjectData : ScriptableObject
 {
-    public bool isBase = false;
     public ObjectType objectType;
     public List<ObjectType> canBePlacedOn;
-    public GameObject prefab;
+    public List<GameObject> prefabs;
     public GameObject previewPrefab;
     public bool CanRotateX = false;
     public int RotationXSteps = 0;
@@ -33,6 +32,7 @@ public class BuildObjectData : ScriptableObject
     public float distanceStep = 0;
     public float MinDistance = 0;
     public float MaxDistance = 0;
+    public float startDistance = 0;
     public bool CanScale = false;
     public float scaleStep = 0;
     public float MinScale = 0;
@@ -43,5 +43,10 @@ public class BuildObjectData : ScriptableObject
         if (!canBePlacedOn.Contains(obj.objectType)) return false;
 
         return true;
+    }
+
+    public GameObject GetPrefab()
+    {
+        return prefabs[Random.Range(0, prefabs.Count)];
     }
 }

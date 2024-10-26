@@ -51,11 +51,7 @@ public class InputManger : MonoBehaviour
         float scrollValue = context.ReadValue<float>();
         int scrollDirection = scrollValue > 0 ? 1 : -1;
 
-        if (rightMousePressed)
-        {
-            camController.ZoomCamera(-scrollDirection);
-        }
-        else if (IsAnyKeyDown())
+        if (IsAnyKeyDown())
         {
             if (QPressed)
             {
@@ -77,6 +73,10 @@ public class InputManger : MonoBehaviour
             {
                 gameManager.ScaleObject(scrollDirection);
             }
+        }
+        else
+        {
+            camController.ZoomCamera(-scrollDirection);
         }
     }
 
@@ -146,8 +146,6 @@ public class InputManger : MonoBehaviour
         return false;
     }
 
-
-    //Gets all event system raycast results of current mouse or touch position.
     static List<RaycastResult> GetEventSystemRaycastResults()
     {
         PointerEventData eventData = new PointerEventData(EventSystem.current);

@@ -2,13 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum WorkMode
+{
+    Build,
+    Collect
+}
+
+
 [RequireComponent(typeof(CameraController))]
 [RequireComponent(typeof(InputManger))]
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] LayerMask layerMask;
+    [SerializeField] WorkMode workMode = WorkMode.Build;
+    [SerializeField] LayerMask objectLayer;
     [SerializeField] float rayDistance = 1000f;
+    [SerializeField] private Color previewColor = new Color(1, 1, 1, 0.5f);
+    [SerializeField] private Color previewColorInvalid = new Color(1, 0, 0, 0.5f);
     [SerializeField] private BuildObjectData selectedObjectData;
+    [SerializeField] private List<BuildObject> buildObjects = new List<BuildObject>();
     private BuildObject previewObject;
     private BuildObject currentObject;
     private RaycastHit currentHit = new RaycastHit();
@@ -29,25 +40,118 @@ public class GameManager : MonoBehaviour
     {
         currentObject = GetObjectUnderMouse();
 
-        if (CanInstantiateObject())
+        if (!currentObject)
         {
-            previewObject.transform.position = currentHit.point;
-
-            Quaternion resultingRotation = Quaternion.FromToRotation(Vector3.up, currentHit.normal) * Quaternion.Euler(rotationFactor);
-            previewObject.Model.transform.rotation = resultingRotation;
-
-            Vector3 position = previewObject.Model.transform.localPosition;
-            position = currentHit.normal * modelDistance;
-            previewObject.Model.transform.localPosition = position;
-
-            previewObject.Model.transform.localScale = initScale * scale;
+            HighlightObject(null);
+            HidePreview();
         }
-        else
+
+        if (workMode == WorkMode.Build)
         {
-            previewObject.transform.position = Vector3.one * 1000;
+            if (currentObject)
+            {
+                UpdatePreviewObjectPosition();
+            }
+
+            if (CanInstantiateObject())
+            {
+                SetPreview(true);
+
+                HighlightObject(currentObject);
+            }
+            else
+            {
+                SetPreview(false);
+            }
+        }
+        else if (workMode == WorkMode.Collect)
+        {
+            HidePreview();
+
+            if (CanCollectObject())
+            {
+                HighlightObject(currentObject);
+            }
         }
     }
 
+    public void ClickStart()
+    {
+        currentObject = GetObjectUnderMouse();
+
+        if (workMode == WorkMode.Build)
+        {
+            if (CanInstantiateObject())
+            {
+                InstantiateSelectedObject();
+
+                SelectObject(selectedObjectData);
+            }
+        }
+        else if (workMode == WorkMode.Collect)
+        {
+            if (CanCollectObject())
+            {
+                CollectObject();
+            }
+        }
+
+    }
+
+    private void CollectObject()
+    {
+        buildObjects.Remove(currentObject);
+        currentObject.ParentObject.ChildObjects.Remove(currentObject);
+        Destroy(currentObject.gameObject);
+
+        // TODO: Add the object back to the inventory
+    }
+
+    private void InstantiateSelectedObject()
+    {
+        BuildObject instantietedObject = Instantiate(selectedObjectData.GetPrefab(), previewObject.transform.position, previewObject.transform.rotation).GetComponent<BuildObject>();
+
+        instantietedObject.Model.transform.localScale = previewObject.Model.transform.localScale;
+        instantietedObject.Model.transform.localPosition = previewObject.Model.transform.localPosition;
+        instantietedObject.Model.transform.rotation = previewObject.Model.transform.rotation;
+
+        buildObjects.Add(instantietedObject);
+        instantietedObject.SetParentObject(currentObject);
+        currentObject.ChildObjects.Add(instantietedObject);
+    }
+
+    private void HighlightObject(BuildObject obj)
+    {
+        foreach (BuildObject buildObject in buildObjects)
+        {
+            if (buildObject == obj)
+            {
+                buildObject.OutlineController.SetOutlineThickness(0.01f);
+            }
+            else
+            {
+                buildObject.OutlineController.SetOutlineThickness(0);
+            }
+        }
+    }
+
+    public void SetWorkModeToBuild()
+    {
+        workMode = WorkMode.Build;
+    }
+
+    public void SetWorkModeToDestroy()
+    {
+        workMode = WorkMode.Collect;
+    }
+
+    private void UpdatePreviewObjectPosition()
+    {
+        previewObject.transform.position = currentHit.point;
+        previewObject.Model.transform.rotation = Quaternion.FromToRotation(Vector3.up, currentHit.normal) * Quaternion.Euler(rotationFactor);
+        previewObject.Model.transform.localPosition = currentHit.normal * modelDistance;
+        previewObject.Model.transform.localScale = initScale * scale;
+    }
 
     public void SelectObject(BuildObjectData objData)
     {
@@ -61,24 +165,23 @@ public class GameManager : MonoBehaviour
         if (!selectedObjectData) return;
 
         previewObject = Instantiate(selectedObjectData.previewPrefab).GetComponent<BuildObject>();
-        previewObject.transform.position = Vector3.one * 1000;
+        SetPreview(true);
 
         rotationFactor = Vector3.zero;
-        modelDistance = 0;
+        modelDistance = selectedObjectData.startDistance;
         scale = 1;
         initScale = previewObject.Model.transform.localScale;
     }
 
-    public void ClickStart()
+    private void SetPreview(bool valid)
     {
-        if (CanInstantiateObject())
-        {
-            BuildObject instantietedObject = Instantiate(selectedObjectData.prefab, previewObject.transform.position, previewObject.transform.rotation).GetComponent<BuildObject>();
+        previewObject.MeshRenderer.material.color = valid ? previewColor : previewColorInvalid;
+    }
 
-            instantietedObject.Model.transform.localScale = previewObject.Model.transform.localScale;
-            instantietedObject.Model.transform.localPosition = previewObject.Model.transform.localPosition;
-            instantietedObject.Model.transform.rotation = previewObject.Model.transform.rotation;
-        }
+    private void HidePreview()
+    {
+        previewObject.MeshRenderer.material.color = previewColor;
+        previewObject.transform.position = Vector3.one * 1000;
     }
 
     public void RotateObjectX(int direction)
@@ -88,7 +191,7 @@ public class GameManager : MonoBehaviour
         rotationFactor.x += direction * selectedObjectData.RotationXSteps;
         if (selectedObjectData.RotationXMax - selectedObjectData.RotationXMin >= 360)
         {
-            rotationFactor.x = rotationFactor.x % 360;
+            rotationFactor.x %= 360;
         }
         rotationFactor.x = Mathf.Clamp(rotationFactor.x, selectedObjectData.RotationXMin, selectedObjectData.RotationXMax);
     }
@@ -100,7 +203,7 @@ public class GameManager : MonoBehaviour
         rotationFactor.y += direction * selectedObjectData.RotationYSteps;
         if (selectedObjectData.RotationYMax - selectedObjectData.RotationYMin >= 360)
         {
-            rotationFactor.y = rotationFactor.y % 360;
+            rotationFactor.y %= 360;
         }
         rotationFactor.y = Mathf.Clamp(rotationFactor.y, selectedObjectData.RotationYMin, selectedObjectData.RotationYMax);
     }
@@ -112,7 +215,7 @@ public class GameManager : MonoBehaviour
         rotationFactor.z += direction * selectedObjectData.RotationZSteps;
         if (selectedObjectData.RotationZMax - selectedObjectData.RotationZMin >= 360)
         {
-            rotationFactor.z = rotationFactor.z % 360;
+            rotationFactor.z %= 360;
         }
         rotationFactor.z = Mathf.Clamp(rotationFactor.z, selectedObjectData.RotationZMin, selectedObjectData.RotationZMax);
     }
@@ -136,16 +239,19 @@ public class GameManager : MonoBehaviour
 
     private bool CanInstantiateObject()
     {
-        // TODO: Check for collision of all objects not just the attached children
-        return previewObject && currentObject && previewObject.CanBePlacedOn(currentObject);
+        return previewObject && currentObject && previewObject.Data.CanBePlacedOn(currentObject.Data) && !CollidesWithObjects(previewObject);
+    }
+
+    private bool CanCollectObject()
+    {
+        return currentObject && !currentObject.IsBase && currentObject.ChildObjects.Count == 0;
     }
 
     private BuildObject GetObjectUnderMouse()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, rayDistance, layerMask))
+        if (Physics.Raycast(ray, out RaycastHit hit, rayDistance, objectLayer))
         {
             BuildObjectModel buildObjectModel = hit.collider.GetComponent<BuildObjectModel>();
             if (buildObjectModel)
@@ -156,5 +262,23 @@ public class GameManager : MonoBehaviour
         }
 
         return null;
+    }
+
+    private bool CollidesWithObjects(BuildObject obj)
+    {
+        foreach (BuildObject buildObject in buildObjects)
+        {
+            if (buildObject.ModelCollider.bounds.Intersects(obj.ModelCollider.bounds))
+            {
+                if (currentObject && buildObject == currentObject)
+                {
+                    continue;
+                }
+
+                return true;
+            }
+        }
+
+        return false;
     }
 }

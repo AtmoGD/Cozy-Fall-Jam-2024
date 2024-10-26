@@ -12,29 +12,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01fb192e3634e6f43b7362989b184e7a, type: 3}
   m_Name: ChestNut
   m_EditorClassIdentifier: 
-  isBase: 0
   objectType: 0
   canBePlacedOn: 01000000
-  prefab: {fileID: 8662119216013296397, guid: 45270cbf22f8170428ef1f7702475cb3, type: 3}
+  prefabs:
+  - {fileID: 8662119216013296397, guid: 45270cbf22f8170428ef1f7702475cb3, type: 3}
+  - {fileID: 6058930857532199871, guid: ccbc13bcad4b6a64491f01c38858f2e4, type: 3}
+  - {fileID: 4797227262450093059, guid: 38ae37e84c160e64ba2d882f1d68552b, type: 3}
+  - {fileID: 792410777784052848, guid: 303f73a2f18d4b049803c77d1a175541, type: 3}
   previewPrefab: {fileID: 5237889231947067916, guid: 4a4ba92618c517d4d9f073b51ad82606,
     type: 3}
   CanRotateX: 1
-  RotationXSteps: 5
+  RotationXSteps: 2
   RotationXMin: 0
   RotationXMax: 360
   CanRotateY: 1
-  RotationYSteps: 5
+  RotationYSteps: 2
   RotationYMin: 0
   RotationYMax: 360
   CanRotateZ: 1
-  RotationZSteps: 180
+  RotationZSteps: 2
   RotationZMin: 0
   RotationZMax: 360
   CanAddDistance: 1
-  distanceStep: 0.02
+  distanceStep: 0.01
   MinDistance: 0
-  MaxDistance: 2
+  MaxDistance: 0
+  startDistance: 0
   CanScale: 1
-  scaleStep: 0.1
+  scaleStep: 0.02
   MinScale: 0.5
   MaxScale: 2
