@@ -1,4 +1,4 @@
-const cacheName = "DefaultCompany-Cozy Fall Jam 2024-0.1.0";
+const cacheName = "Dennis Hawran-Little Critters-0.1.0";
 const contentToCache = [
     "Build/docs.loader.js",
     "Build/docs.framework.js",
