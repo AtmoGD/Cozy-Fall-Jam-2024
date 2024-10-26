@@ -9,10 +9,13 @@ using UnityEngine.EventSystems;
 public class InputManger : MonoBehaviour
 {
     [SerializeField] private int UILayer = 5;
+    [SerializeField] private float mouseDeltaSpeed = 0.1f;
     private GameManager gameManager;
     private CameraController camController;
+    private CameraLookAtController camLookAtController;
 
     private bool rightMousePressed = false;
+    private bool middleMousePressed = false;
     private Vector2 mouseDelta = Vector2.zero;
 
     private bool QPressed = false;
@@ -25,6 +28,7 @@ public class InputManger : MonoBehaviour
     {
         gameManager = GetComponent<GameManager>();
         camController = GetComponent<CameraController>();
+        camLookAtController = GetComponent<CameraLookAtController>();
     }
 
     public void OnLeftClick(InputAction.CallbackContext context)
@@ -42,6 +46,13 @@ public class InputManger : MonoBehaviour
         if (IsPointerOverUIElement()) return;
 
         rightMousePressed = context.ReadValueAsButton();
+    }
+
+    public void OnMiddleClick(InputAction.CallbackContext context)
+    {
+        if (IsPointerOverUIElement()) return;
+
+        middleMousePressed = context.ReadValueAsButton();
     }
 
     public void OnScroll(InputAction.CallbackContext context)
@@ -100,6 +111,11 @@ public class InputManger : MonoBehaviour
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
+        }
+
+        if (middleMousePressed)
+        {
+            camLookAtController.AddHeight(-mouseDelta.y * mouseDeltaSpeed);
         }
     }
 

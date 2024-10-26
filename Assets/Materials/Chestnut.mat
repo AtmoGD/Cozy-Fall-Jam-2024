@@ -63,6 +63,7 @@ Material:
     - _Cull: 2
     - _DstBlend: 10
     - _Lighting_Cutoff: 0.2
+    - _Metallic: 0
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Shadow_Brightness: 0.5

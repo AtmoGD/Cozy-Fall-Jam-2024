@@ -14,14 +14,17 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float zoomMin = 1.0f;
     [SerializeField] private float zoomMax = 10.0f;
     [SerializeField] private float rotationLerpSpeed = 2.0f;
+    [SerializeField] private float zoomLerpSpeed = 2.0f;
 
     private float yaw = 0.0f;
     private float pitch = 0.0f;
     private float distance = 0.0f;
+    private float targetDistance = 0.0f;
 
     private void Start()
     {
         distance = Vector3.Distance(mainCamera.transform.position, cameraLookAt.position);
+        targetDistance = distance;
         Vector3 angles = mainCamera.transform.eulerAngles;
         yaw = angles.y;
         pitch = angles.x;
@@ -36,12 +39,14 @@ public class CameraController : MonoBehaviour
 
     public void ZoomCamera(float z)
     {
-        distance += z * zoomSpeed;
-        distance = Mathf.Clamp(distance, zoomMin, zoomMax);
+        targetDistance += z * zoomSpeed;
+        targetDistance = Mathf.Clamp(targetDistance, zoomMin, zoomMax);
     }
 
     private void LateUpdate()
     {
+        distance = Mathf.Lerp(distance, targetDistance, Time.deltaTime * zoomLerpSpeed);
+
         Quaternion rotation = Quaternion.Euler(pitch, yaw, 0.0f);
         rotation = Quaternion.Lerp(mainCamera.transform.rotation, rotation, Time.deltaTime * rotationLerpSpeed);
 

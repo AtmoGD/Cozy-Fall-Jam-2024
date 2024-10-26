@@ -1,11 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System;
 public enum WorkMode
 {
     Build,
     Collect
+}
+
+[Serializable]
+public class InventorySlot
+{
+    public BuildObjectData data;
+    public int count;
 }
 
 
@@ -16,10 +23,19 @@ public class GameManager : MonoBehaviour
     [SerializeField] WorkMode workMode = WorkMode.Build;
     [SerializeField] LayerMask objectLayer;
     [SerializeField] float rayDistance = 1000f;
+    [SerializeField] private float outlineThickness = 0.05f;
     [SerializeField] private Color previewColor = new Color(1, 1, 1, 0.5f);
     [SerializeField] private Color previewColorInvalid = new Color(1, 0, 0, 0.5f);
     [SerializeField] private BuildObjectData selectedObjectData;
     [SerializeField] private List<BuildObject> buildObjects = new List<BuildObject>();
+    [SerializeField] private List<InventorySlot> inventory = new List<InventorySlot>();
+    [SerializeField] private bool infiniteInventory = false;
+    public bool InfiniteInventory => infiniteInventory;
+    [SerializeField] private bool canOverlap = false;
+    public bool CanOverlap => canOverlap;
+    [SerializeField] private bool canPlaceAnywhere = false;
+    public bool CanPlaceAnywhere => canPlaceAnywhere;
+    public List<InventorySlot> Inventory => inventory;
     private BuildObject previewObject;
     private BuildObject currentObject;
     private RaycastHit currentHit = new RaycastHit();
@@ -103,8 +119,7 @@ public class GameManager : MonoBehaviour
         buildObjects.Remove(currentObject);
         currentObject.ParentObject.ChildObjects.Remove(currentObject);
         Destroy(currentObject.gameObject);
-
-        // TODO: Add the object back to the inventory
+        inventory.Find(item => item.data == currentObject.Data).count++;
     }
 
     private void InstantiateSelectedObject()
@@ -126,7 +141,7 @@ public class GameManager : MonoBehaviour
         {
             if (buildObject == obj)
             {
-                buildObject.OutlineController.SetOutlineThickness(0.01f);
+                buildObject.OutlineController.SetOutlineThickness(outlineThickness);
             }
             else
             {
@@ -147,6 +162,8 @@ public class GameManager : MonoBehaviour
 
     private void UpdatePreviewObjectPosition()
     {
+        if (!previewObject) return;
+
         previewObject.transform.position = currentHit.point;
         previewObject.Model.transform.rotation = Quaternion.FromToRotation(Vector3.up, currentHit.normal) * Quaternion.Euler(rotationFactor);
         previewObject.Model.transform.localPosition = currentHit.normal * modelDistance;
@@ -162,7 +179,7 @@ public class GameManager : MonoBehaviour
             Destroy(previewObject.gameObject);
         }
 
-        if (!selectedObjectData) return;
+        if (!selectedObjectData || (Inventory.Find(x => x.data == selectedObjectData).count <= 0 && !infiniteInventory)) return;
 
         previewObject = Instantiate(selectedObjectData.previewPrefab).GetComponent<BuildObject>();
         SetPreview(true);
@@ -175,11 +192,15 @@ public class GameManager : MonoBehaviour
 
     private void SetPreview(bool valid)
     {
+        if (!previewObject) return;
+
         previewObject.MeshRenderer.material.color = valid ? previewColor : previewColorInvalid;
     }
 
     private void HidePreview()
     {
+        if (!previewObject) return;
+
         previewObject.MeshRenderer.material.color = previewColor;
         previewObject.transform.position = Vector3.one * 1000;
     }
@@ -239,7 +260,11 @@ public class GameManager : MonoBehaviour
 
     private bool CanInstantiateObject()
     {
-        return previewObject && currentObject && previewObject.Data.CanBePlacedOn(currentObject.Data) && !CollidesWithObjects(previewObject);
+        return
+        previewObject &&
+        currentObject &&
+        (canPlaceAnywhere || previewObject.Data.CanBePlacedOn(currentObject.Data)) &&
+        (canOverlap || !CollidesWithObjects(previewObject));
     }
 
     private bool CanCollectObject()
