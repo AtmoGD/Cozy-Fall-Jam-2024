@@ -18,12 +18,14 @@ public class InventorySlot
 
 [RequireComponent(typeof(CameraController))]
 [RequireComponent(typeof(InputManger))]
+[RequireComponent(typeof(UIController))]
 public class GameManager : MonoBehaviour
 {
     [SerializeField] WorkMode workMode = WorkMode.Build;
     [SerializeField] LayerMask objectLayer;
     [SerializeField] float rayDistance = 1000f;
     [SerializeField] private MusicManager musicManager;
+    [SerializeField] private UIController ui;
     [SerializeField] private float outlineThickness = 0.05f;
     [SerializeField] private Color previewColor = new Color(1, 1, 1, 0.5f);
     [SerializeField] private Color previewColorInvalid = new Color(1, 0, 0, 0.5f);
@@ -51,10 +53,9 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        if (selectedObjectData)
-        {
-            SelectObject(selectedObjectData);
-        }
+        if (!selectedObjectData || (Inventory.Find(x => x.data == selectedObjectData).count <= 0 && !infiniteInventory)) return;
+
+        SelectObject(selectedObjectData);
     }
 
     private void Update()
@@ -97,18 +98,24 @@ public class GameManager : MonoBehaviour
     }
 
 
-    public void SetIsDay(bool value){
+    public void SetIsDay(bool value)
+    {
         isDay = value;
         UpdateEnvironment();
     }
-    public void SetIsRain(bool value){
+
+    public void SetIsRain(bool value)
+    {
         isRain = value;
         UpdateEnvironment();
     }
-    public void UpdateEnvironment(){
-        string environment = (isDay?"Day":"Night")+(isRain?"Rain":"");
+
+    public void UpdateEnvironment()
+    {
+        string environment = (isDay ? "Day" : "Night") + (isRain ? "Rain" : "");
         musicManager.StartCrossfade(environment);
     }
+
     public void ClickStart()
     {
         currentObject = GetObjectUnderMouse();
@@ -129,6 +136,33 @@ public class GameManager : MonoBehaviour
                 CollectObject();
             }
         }
+    }
+
+    public void StartBaseGame()
+    {
+        canOverlap = false;
+        infiniteInventory = false;
+        canPlaceAnywhere = false;
+
+        ui.SetMenuActive(false);
+    }
+
+    public void StartUnlimitedGame()
+    {
+        canOverlap = false;
+        infiniteInventory = true;
+        canPlaceAnywhere = false;
+
+        ui.SetMenuActive(false);
+    }
+
+    public void StartCreativeGame()
+    {
+        canOverlap = true;
+        infiniteInventory = true;
+        canPlaceAnywhere = true;
+
+        ui.SetMenuActive(false);
     }
 
     private void CollectObject()

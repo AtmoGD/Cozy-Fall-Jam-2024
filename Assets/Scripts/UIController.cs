@@ -8,6 +8,9 @@ public class UIController : MonoBehaviour
     private GameManager gameManager;
     [SerializeField] private Animator buildButtonAnimator;
     [SerializeField] private Animator destroyButtonAnimator;
+    [SerializeField] private Animator mainMenuAnimator;
+    [SerializeField] private Animator restartGameAnimator;
+    [SerializeField] private Animator photoModeAnimator;
 
     private void Awake()
     {
@@ -33,5 +36,20 @@ public class UIController : MonoBehaviour
         destroyButtonAnimator.SetBool("Active", true);
 
         gameManager.SetWorkModeToDestroy();
+    }
+
+    public void SetMenuActive(bool active)
+    {
+        mainMenuAnimator.SetBool("Active", active);
+    }
+
+    public void SetRestartGameActive(bool active)
+    {
+        restartGameAnimator.SetBool("Active", active);
+    }
+
+    public void SetPhotoModeActive(bool active)
+    {
+        photoModeAnimator.SetBool("Active", active);
     }
 }
