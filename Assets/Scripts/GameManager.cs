@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] WorkMode workMode = WorkMode.Build;
     [SerializeField] LayerMask objectLayer;
     [SerializeField] float rayDistance = 1000f;
+    [SerializeField] private MusicManager musicManager;
     [SerializeField] private float outlineThickness = 0.05f;
     [SerializeField] private Color previewColor = new Color(1, 1, 1, 0.5f);
     [SerializeField] private Color previewColorInvalid = new Color(1, 0, 0, 0.5f);
@@ -36,6 +37,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private bool canPlaceAnywhere = false;
     public bool CanPlaceAnywhere => canPlaceAnywhere;
     public List<InventorySlot> Inventory => inventory;
+    [SerializeField] private bool isDay = true;
+    public bool IsDay => isDay;
+    [SerializeField] private bool isRain = false;
+    public bool IsRain => isRain;
     private BuildObject previewObject;
     private BuildObject currentObject;
     private RaycastHit currentHit = new RaycastHit();
@@ -91,6 +96,19 @@ public class GameManager : MonoBehaviour
         }
     }
 
+
+    public void SetIsDay(bool value){
+        isDay = value;
+        UpdateEnvironment();
+    }
+    public void SetIsRain(bool value){
+        isRain = value;
+        UpdateEnvironment();
+    }
+    public void UpdateEnvironment(){
+        string environment = (isDay?"Day":"Night")+(isRain?"Rain":"");
+        musicManager.StartCrossfade(environment);
+    }
     public void ClickStart()
     {
         currentObject = GetObjectUnderMouse();
