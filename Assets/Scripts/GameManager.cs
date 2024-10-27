@@ -34,6 +34,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private AudioSource confirmSound;
     [SerializeField] private AudioSource selectSound;
     [SerializeField] private float outlineThickness = 0.05f;
+    [SerializeField] private float distanceMultiplier = 0.1f;
     [SerializeField] private Color previewColor = new Color(1, 1, 1, 0.5f);
     [SerializeField] private Color previewColorInvalid = new Color(1, 0, 0, 0.5f);
     [SerializeField] private BuildObjectData selectedObjectData;
@@ -57,6 +58,7 @@ public class GameManager : MonoBehaviour
     private float modelDistance = 0;
     private Vector3 initScale = Vector3.one;
     private float scale = 1;
+    private BuildObject lastHighlightedObject;
 
     private void Start()
     {
@@ -236,6 +238,7 @@ public class GameManager : MonoBehaviour
         newVariant.Model.transform.localScale = currentObject.Model.transform.localScale;
         newVariant.Model.transform.localPosition = currentObject.Model.transform.localPosition;
         newVariant.Model.transform.rotation = currentObject.Model.transform.rotation;
+        newVariant.isBase = currentObject.isBase;
 
         buildObjects.Add(newVariant);
         buildObjects.Remove(currentObject);
@@ -255,17 +258,36 @@ public class GameManager : MonoBehaviour
 
     private void HighlightObject(BuildObject obj)
     {
+        float distance = 1;
+        if (obj != null)
+        {
+            distance = Vector3.Distance(obj.transform.position, Camera.main.transform.position) * distanceMultiplier;
+        }
+
+        if (lastHighlightedObject != obj)
+        {
+            if (lastHighlightedObject != null)
+            {
+                lastHighlightedObject.OutlineController.SetOutlineThickness(0);
+            }
+
+            lastHighlightedObject = obj;
+        }
+
         foreach (BuildObject buildObject in buildObjects)
         {
             if (buildObject == obj)
             {
-                buildObject.OutlineController.SetOutlineThickness(outlineThickness);
+                buildObject.OutlineController.SetOutlineThickness(outlineThickness * distance);
             }
             else
             {
                 buildObject.OutlineController.SetOutlineThickness(0);
             }
         }
+
+        if (obj != null)
+            obj.OutlineController.SetOutlineThickness(outlineThickness * distance);
     }
 
     public void SetWorkModeToBuild()
