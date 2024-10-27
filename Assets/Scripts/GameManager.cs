@@ -262,6 +262,9 @@ public class GameManager : MonoBehaviour
 
         if (placeSound != null)
             placeSound[UnityEngine.Random.Range(0, placeSound.Count)].Play();
+
+        inventory.Find(item => item.data == selectedObjectData).count--;
+        SelectObject(selectedObjectData);
     }
 
     public void SwitchPrefabVariant()
