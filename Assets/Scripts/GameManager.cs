@@ -23,6 +23,8 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] WorkMode workMode = WorkMode.Build;
     [SerializeField] LayerMask objectLayer;
+    [SerializeField] LayerMask mushroomLayer;
+    [SerializeField] OtherVolumeController otherController;
     [SerializeField] float rayDistance = 1000f;
     [SerializeField] private MusicManager musicManager;
     [SerializeField] private UIController ui;
@@ -59,9 +61,12 @@ public class GameManager : MonoBehaviour
     private Vector3 initScale = Vector3.one;
     private float scale = 1;
     private BuildObject lastHighlightedObject;
+    private bool isPaused = false;
 
     private void Start()
     {
+        musicManager.StartCrossfade("Pause");
+
         if (!selectedObjectData || (Inventory.Find(x => x.data == selectedObjectData).count <= 0 && !infiniteInventory)) return;
 
         SelectObject(selectedObjectData);
@@ -128,6 +133,7 @@ public class GameManager : MonoBehaviour
     public void UpdateEnvironment()
     {
         string environment = (isDay ? "Day" : "Night") + (isRain ? "Rain" : "");
+        environment = isPaused ? "Pause" : environment;
         musicManager.StartCrossfade(environment);
     }
 
@@ -143,9 +149,19 @@ public class GameManager : MonoBehaviour
             selectSound[UnityEngine.Random.Range(0, selectSound.Count)].Play();
     }
 
+    public void CloseGame()
+    {
+        Application.Quit();
+    }
+
     public void ClickStart()
     {
         currentObject = GetObjectUnderMouse();
+
+        if (DoRaycastForMushrooms())
+        {
+            otherController.SetEffectActive(true);
+        }
 
         if (workMode == WorkMode.Build)
         {
@@ -165,13 +181,27 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public bool DoRaycastForMushrooms()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, rayDistance, mushroomLayer))
+        {
+            return true;
+        }
+        return false;
+    }
+
     public void StartBaseGame()
     {
         canOverlap = false;
         infiniteInventory = false;
         canPlaceAnywhere = false;
+        isPaused = false;
 
         ui.SetMenuActive(false);
+
+        UpdateEnvironment();
     }
 
     public void StartUnlimitedGame()
@@ -179,8 +209,11 @@ public class GameManager : MonoBehaviour
         canOverlap = false;
         infiniteInventory = true;
         canPlaceAnywhere = false;
+        isPaused = false;
 
         ui.SetMenuActive(false);
+
+        UpdateEnvironment();
     }
 
     public void StartCreativeGame()
@@ -188,8 +221,18 @@ public class GameManager : MonoBehaviour
         canOverlap = true;
         infiniteInventory = true;
         canPlaceAnywhere = true;
+        isPaused = false;
 
         ui.SetMenuActive(false);
+
+        UpdateEnvironment();
+    }
+
+    public void SetGamePaused(bool paused)
+    {
+        isPaused = paused;
+
+        UpdateEnvironment();
     }
 
     private void CollectObject()

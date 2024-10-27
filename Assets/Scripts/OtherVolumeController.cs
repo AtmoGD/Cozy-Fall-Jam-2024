@@ -40,7 +40,7 @@ public class OtherVolumeController : MonoBehaviour
         }
     }
 
-    public void SetActive(bool active)
+    public void SetEffectActive(bool active)
     {
         this.active = active;
     }

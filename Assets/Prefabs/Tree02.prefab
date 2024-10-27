@@ -73,11 +73,21 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 795929c781a9b674baceccb1f9c44a49, type: 2}
+    - target: {fileID: 5124692985706326626, guid: 302e2e3381cfc8b41817a6066d9449e4,
+        type: 3}
+      propertyPath: EmissionModule.rateOverTime.scalar
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6302692808416651994, guid: 302e2e3381cfc8b41817a6066d9449e4,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 795929c781a9b674baceccb1f9c44a49, type: 2}
+    - target: {fileID: 9068859621865763297, guid: 302e2e3381cfc8b41817a6066d9449e4,
+        type: 3}
+      propertyPath: EmissionModule.rateOverTime.scalar
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01fb192e3634e6f43b7362989b184e7a, type: 3}
+  m_Name: ChestnutClosed
+  m_EditorClassIdentifier: 
+  objectType: 0
+  canBePlacedOn: 01000000
+  prefabs:
+  - {fileID: 2574635817690110461, guid: bfac2d462c6a2ca4da48d4af0182e631, type: 3}
+  - {fileID: 572845429225146766, guid: 7327374f290e44342b7366cd53097a43, type: 3}
+  previewPrefab: {fileID: 3974004681415600408, guid: 8f9114866d3492e4fa4d6ced38ccddcd,
+    type: 3}
+  CanRotateX: 1
+  RotationXSteps: 2
+  RotationXMin: 0
+  RotationXMax: 360
+  CanRotateY: 1
+  RotationYSteps: 2
+  RotationYMin: 0
+  RotationYMax: 360
+  CanRotateZ: 1
+  RotationZSteps: 2
+  RotationZMin: 0
+  RotationZMax: 360
+  CanAddDistance: 1
+  distanceStep: 0.01
+  MinDistance: -0.1
+  MaxDistance: 0.1
+  startDistance: 0
+  CanScale: 1
+  scaleStep: 0.01
+  MinScale: 0.1
+  MaxScale: 2

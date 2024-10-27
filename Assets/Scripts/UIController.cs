@@ -46,6 +46,8 @@ public class UIController : MonoBehaviour
     public void SetRestartGameActive(bool active)
     {
         restartGameAnimator.SetBool("Active", active);
+
+        gameManager.SetGamePaused(active);
     }
 
     public void StartRestartGame()

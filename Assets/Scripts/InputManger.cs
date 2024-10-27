@@ -139,13 +139,13 @@ public class InputManger : MonoBehaviour
         {
             camController.RotateCamera(mouseDelta.x, mouseDelta.y);
 
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
+            // Cursor.lockState = CursorLockMode.Locked;
+            // Cursor.visible = false;
         }
         else
         {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
+            // Cursor.lockState = CursorLockMode.None;
+            // Cursor.visible = true;
         }
 
         if (middleMousePressed)
