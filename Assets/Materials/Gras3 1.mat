@@ -137,13 +137,13 @@ Material:
     - _SrcBlendAlpha: 1
     - _Surface: 0
     - _UVSec: 0
-    - _WindSpeed: 0.3
+    - _WindSpeed: 0.22
     - _WindStrenght: 0.1
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
-    - _Color: {r: 0.7372549, g: 0.23783776, b: 0.07450982, a: 1}
+    - _Color: {r: 0.9176471, g: 0.5137255, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 0}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
     - _TextureCenter: {r: 0.1, g: 0.5, b: 0, a: 0}
