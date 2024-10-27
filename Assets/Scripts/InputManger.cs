@@ -12,11 +12,13 @@ public class InputManger : MonoBehaviour
     [SerializeField] private int UILayer = 5;
     [SerializeField] private float mouseDeltaSpeed = 0.1f;
     [SerializeField] private float rightClickTime = 0.2f;
+    [SerializeField] private float rotateObjectSpeed = 1.0f;
     [SerializeField] private ModifierElement qModifierElement;
     [SerializeField] private ModifierElement wModifierElement;
     [SerializeField] private ModifierElement eModifierElement;
     [SerializeField] private ModifierElement rModifierElement;
     [SerializeField] private ModifierElement tModifierElement;
+    [SerializeField] private RotateObjectController rotateObjectController;
     private GameManager gameManager;
     private CameraController camController;
     private CameraLookAtController camLookAtController;
@@ -32,6 +34,8 @@ public class InputManger : MonoBehaviour
     private bool EPressed = false;
     private bool RPressed = false;
     private bool TPressed = false;
+
+    private bool ShiftPressed = false;
 
     private void Awake()
     {
@@ -107,10 +111,19 @@ public class InputManger : MonoBehaviour
                 gameManager.ScaleObject(scrollDirection);
             }
         }
+        else if (ShiftPressed)
+        {
+            rotateObjectController.AddRotation(scrollDirection * rotateObjectSpeed);
+        }
         else
         {
             camController.ZoomCamera(-scrollDirection);
         }
+    }
+
+    public void OnShift(InputAction.CallbackContext context)
+    {
+        ShiftPressed = context.ReadValueAsButton();
     }
 
     private bool IsAnyKeyDown()

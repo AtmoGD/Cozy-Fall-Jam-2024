@@ -26,6 +26,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] float rayDistance = 1000f;
     [SerializeField] private MusicManager musicManager;
     [SerializeField] private UIController ui;
+    [SerializeField] private AudioSource placeSound;
+    [SerializeField] private AudioSource collectSound;
+    [SerializeField] private AudioSource switchModeToBuildSound;
+    [SerializeField] private AudioSource switchModeToCollectSound;
+    [SerializeField] private AudioSource confirmSound;
+    [SerializeField] private AudioSource selectSound;
     [SerializeField] private float outlineThickness = 0.05f;
     [SerializeField] private Color previewColor = new Color(1, 1, 1, 0.5f);
     [SerializeField] private Color previewColorInvalid = new Color(1, 0, 0, 0.5f);
@@ -102,18 +108,36 @@ public class GameManager : MonoBehaviour
     {
         isDay = value;
         UpdateEnvironment();
+
+        if (confirmSound != null)
+            confirmSound.Play();
     }
 
     public void SetIsRain(bool value)
     {
         isRain = value;
         UpdateEnvironment();
+
+        if (confirmSound != null)
+            confirmSound.Play();
     }
 
     public void UpdateEnvironment()
     {
         string environment = (isDay ? "Day" : "Night") + (isRain ? "Rain" : "");
         musicManager.StartCrossfade(environment);
+    }
+
+    public void PlayConfirmSound()
+    {
+        if (confirmSound != null)
+            confirmSound.Play();
+    }
+
+    public void PlaySelectSound()
+    {
+        if (selectSound != null)
+            selectSound.Play();
     }
 
     public void ClickStart()
@@ -171,6 +195,9 @@ public class GameManager : MonoBehaviour
         currentObject.ParentObject.ChildObjects.Remove(currentObject);
         Destroy(currentObject.gameObject);
         inventory.Find(item => item.data == currentObject.Data).count++;
+
+        if (collectSound != null)
+            collectSound.Play();
     }
 
     private void InstantiateSelectedObject()
@@ -184,6 +211,9 @@ public class GameManager : MonoBehaviour
         buildObjects.Add(instantietedObject);
         instantietedObject.SetParentObject(currentObject);
         currentObject.ChildObjects.Add(instantietedObject);
+
+        if (placeSound != null)
+            placeSound.Play();
     }
 
     public void SwitchPrefabVariant()
@@ -215,6 +245,9 @@ public class GameManager : MonoBehaviour
             currentObject.ParentObject.ChildObjects.Remove(currentObject);
         }
 
+        if (placeSound != null)
+            placeSound.Play();
+
         Destroy(currentObject.gameObject);
     }
 
@@ -236,11 +269,17 @@ public class GameManager : MonoBehaviour
     public void SetWorkModeToBuild()
     {
         workMode = WorkMode.Build;
+
+        if (switchModeToBuildSound != null)
+            switchModeToBuildSound.Play();
     }
 
     public void SetWorkModeToDestroy()
     {
         workMode = WorkMode.Collect;
+
+        if (switchModeToCollectSound != null)
+            switchModeToCollectSound.Play();
     }
 
     private void UpdatePreviewObjectPosition()

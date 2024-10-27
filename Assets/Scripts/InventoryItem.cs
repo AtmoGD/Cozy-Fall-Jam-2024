@@ -34,5 +34,6 @@ public class InventoryItem : MonoBehaviour
     public void OnClick()
     {
         gameManager.SelectObject(buildObjectData);
+        gameManager.PlaySelectSound();
     }
 }
