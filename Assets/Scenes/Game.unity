@@ -18905,6 +18905,7 @@ MonoBehaviour:
   confirmSound: {fileID: 0}
   selectSound: {fileID: 0}
   outlineThickness: 0.005
+  distanceMultiplier: 1.5
   previewColor: {r: 1, g: 1, b: 1, a: 0.5}
   previewColorInvalid: {r: 1, g: 0, b: 0, a: 0.5}
   selectedObjectData: {fileID: 0}
