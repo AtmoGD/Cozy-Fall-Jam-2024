@@ -17,6 +17,10 @@ public class DayNightController : MonoBehaviour
     [SerializeField] private float dayY = 0.0f;
     [SerializeField] private float nightY = -15.0f;
     [SerializeField] private float volumeSpeed = 1.0f;
+    [SerializeField] private MeshRenderer background;
+    [SerializeField] private Color dayColor = Color.white;
+    [SerializeField] private Color nightColor = Color.black;
+    [SerializeField] private float colorSpeed = 1.0f;
 
     private GameManager gameManager;
 
@@ -35,5 +39,7 @@ public class DayNightController : MonoBehaviour
 
         dayVolume.transform.localPosition = new Vector3(dayVolume.transform.localPosition.x, Mathf.Lerp(dayVolume.transform.localPosition.y, gameManager.IsDay ? dayY : nightY, volumeSpeed * Time.deltaTime), dayVolume.transform.localPosition.z);
         nightVolume.transform.localPosition = new Vector3(nightVolume.transform.localPosition.x, Mathf.Lerp(nightVolume.transform.localPosition.y, gameManager.IsDay ? nightY : dayY, volumeSpeed * Time.deltaTime), nightVolume.transform.localPosition.z);
+
+        background.material.color = Color.Lerp(background.material.color, gameManager.IsDay ? dayColor : nightColor, colorSpeed * Time.deltaTime);
     }
 }

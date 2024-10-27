@@ -124,6 +124,7 @@ public class GameManager : MonoBehaviour
     public void SetIsRain(bool value)
     {
         isRain = value;
+
         UpdateEnvironment();
 
         if (confirmSound != null)

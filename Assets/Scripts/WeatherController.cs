@@ -6,7 +6,6 @@ using UnityEngine;
 public class WeatherController : MonoBehaviour
 {
     [SerializeField] private ParticleSystem rain;
-    [SerializeField] private float emissionRate = 100.0f;
 
     private GameManager gameManager;
     private ParticleSystem.EmissionModule rainEmission;

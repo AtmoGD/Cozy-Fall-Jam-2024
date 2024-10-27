@@ -325,6 +325,7 @@ MonoBehaviour:
   emissionColor: {r: 0.8490566, g: 0.6266277, b: 0.13216448, a: 1}
   emissionIntensity: 3
   lightIntensity: 5
+  invert: 1
 --- !u!4 &5475801089820257579 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 4e34bde60e869ab42a91587784fcfad8,

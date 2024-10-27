@@ -9,6 +9,7 @@ public class EmissionController : MonoBehaviour
     [SerializeField] private Color emissionColor = Color.white;
     [SerializeField] private float emissionIntensity = 1.0f;
     [SerializeField] private float lightIntensity = 1.0f;
+    [SerializeField] private bool invert = false;
     private GameManager gameManager;
 
     private void Start()
@@ -18,7 +19,10 @@ public class EmissionController : MonoBehaviour
 
     private void Update()
     {
-        meshRenderer.material.SetColor("_EmissionColor", emissionColor * (emissionIntensity * (gameManager.IsDay ? 0.0f : 1.0f)));
-        lightSource.intensity = lightIntensity * (gameManager.IsDay ? 0.0f : 1.0f);
+        if (meshRenderer)
+            meshRenderer.material.SetColor("_EmissionColor", emissionColor * (emissionIntensity * (gameManager.IsDay ? (invert ? 0.0f : 1.0f) : (invert ? 1.0f : 0.0f))));
+
+        if (lightSource)
+            lightSource.intensity = lightIntensity * (gameManager.IsDay ? (invert ? 0.0f : 1.0f) : (invert ? 1.0f : 0.0f));
     }
 }
