@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1901841788753570106
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6448184003089797609}
+  - component: {fileID: -432863437791067041}
+  m_Layer: 0
+  m_Name: WindGust_Prefab
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6448184003089797609
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1901841788753570106}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-432863437791067041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1901841788753570106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea6648e32107ba844b47efdea5412dce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loop: 1
+  delayFrom: 12
+  delayTo: 30
+  randomPitchRange: 2
+  audioClips:
+  - {fileID: 8300000, guid: 70f35e83c25279e4d8329ba701a96971, type: 3}
+  - {fileID: 8300000, guid: b20c9fb9a8561b747ba15c25b98b76ac, type: 3}
+  - {fileID: 8300000, guid: 8296df97bf527f74186ec7c7c98744da, type: 3}
+  - {fileID: 8300000, guid: d1b5bcd9a8715284fbb51bdb576d62c4, type: 3}
+  - {fileID: 8300000, guid: 43982036d983a0946aafdf461b4aad4b, type: 3}
+  - {fileID: 8300000, guid: 13b9e85ceb59354479d8edea8b9fcbfb, type: 3}
+  - {fileID: 8300000, guid: 886e08106713f4e45b2a8c2f68878a7b, type: 3}
