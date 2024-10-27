@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] float rayDistance = 1000f;
     [SerializeField] private MusicManager musicManager;
     [SerializeField] private UIController ui;
+    [SerializeField] private Transform objectParent;
     [SerializeField] private AudioSource placeSound;
     [SerializeField] private AudioSource collectSound;
     [SerializeField] private AudioSource switchModeToBuildSound;
@@ -202,7 +203,7 @@ public class GameManager : MonoBehaviour
 
     private void InstantiateSelectedObject()
     {
-        BuildObject instantietedObject = Instantiate(selectedObjectData.GetPrefab(), previewObject.transform.position, previewObject.transform.rotation).GetComponent<BuildObject>();
+        BuildObject instantietedObject = Instantiate(selectedObjectData.GetPrefab(), previewObject.transform.position, previewObject.transform.rotation, objectParent).GetComponent<BuildObject>();
 
         instantietedObject.Model.transform.localScale = previewObject.Model.transform.localScale;
         instantietedObject.Model.transform.localPosition = previewObject.Model.transform.localPosition;
@@ -228,7 +229,7 @@ public class GameManager : MonoBehaviour
             counter++;
         }
 
-        GameObject newObj = Instantiate(newPrefab, currentObject.transform.position, currentObject.transform.rotation);
+        GameObject newObj = Instantiate(newPrefab, currentObject.transform.position, currentObject.transform.rotation, objectParent);
         BuildObject newVariant = newObj.GetComponent<BuildObject>();
 
         newVariant.Model.transform.localScale = currentObject.Model.transform.localScale;

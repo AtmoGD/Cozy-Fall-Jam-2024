@@ -6089,6 +6089,7 @@ MonoBehaviour:
   rayDistance: 1000
   musicManager: {fileID: 1913892854}
   ui: {fileID: 1352421571}
+  objectParent: {fileID: 1322576817}
   placeSound: {fileID: 0}
   collectSound: {fileID: 0}
   switchModeToBuildSound: {fileID: 0}
