@@ -27,12 +27,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private MusicManager musicManager;
     [SerializeField] private UIController ui;
     [SerializeField] private Transform objectParent;
-    [SerializeField] private AudioSource placeSound;
-    [SerializeField] private AudioSource collectSound;
-    [SerializeField] private AudioSource switchModeToBuildSound;
-    [SerializeField] private AudioSource switchModeToCollectSound;
-    [SerializeField] private AudioSource confirmSound;
-    [SerializeField] private AudioSource selectSound;
+    [SerializeField] private List<AudioSource> placeSound;
+    [SerializeField] private List<AudioSource> collectSound;
+    [SerializeField] private List<AudioSource> switchModeToBuildSound;
+    [SerializeField] private List<AudioSource> switchModeToCollectSound;
+    [SerializeField] private List<AudioSource> confirmSound;
+    [SerializeField] private List<AudioSource> selectSound;
     [SerializeField] private float outlineThickness = 0.05f;
     [SerializeField] private float distanceMultiplier = 0.1f;
     [SerializeField] private Color previewColor = new Color(1, 1, 1, 0.5f);
@@ -113,7 +113,7 @@ public class GameManager : MonoBehaviour
         UpdateEnvironment();
 
         if (confirmSound != null)
-            confirmSound.Play();
+            confirmSound[UnityEngine.Random.Range(0, confirmSound.Count)].Play();
     }
 
     public void SetIsRain(bool value)
@@ -122,7 +122,7 @@ public class GameManager : MonoBehaviour
         UpdateEnvironment();
 
         if (confirmSound != null)
-            confirmSound.Play();
+            confirmSound[UnityEngine.Random.Range(0, confirmSound.Count)].Play();
     }
 
     public void UpdateEnvironment()
@@ -134,13 +134,13 @@ public class GameManager : MonoBehaviour
     public void PlayConfirmSound()
     {
         if (confirmSound != null)
-            confirmSound.Play();
+            confirmSound[UnityEngine.Random.Range(0, confirmSound.Count)].Play();
     }
 
     public void PlaySelectSound()
     {
         if (selectSound != null)
-            selectSound.Play();
+            selectSound[UnityEngine.Random.Range(0, selectSound.Count)].Play();
     }
 
     public void ClickStart()
@@ -201,7 +201,7 @@ public class GameManager : MonoBehaviour
         inventory.Find(item => item.data == currentObject.Data).count++;
 
         if (collectSound != null)
-            collectSound.Play();
+            collectSound[UnityEngine.Random.Range(0, collectSound.Count)].Play();
     }
 
     private void InstantiateSelectedObject()
@@ -217,7 +217,7 @@ public class GameManager : MonoBehaviour
         currentObject.ChildObjects.Add(instantietedObject);
 
         if (placeSound != null)
-            placeSound.Play();
+            placeSound[UnityEngine.Random.Range(0, placeSound.Count)].Play();
     }
 
     public void SwitchPrefabVariant()
@@ -251,7 +251,7 @@ public class GameManager : MonoBehaviour
         }
 
         if (placeSound != null)
-            placeSound.Play();
+            placeSound[UnityEngine.Random.Range(0, placeSound.Count)].Play();
 
         Destroy(currentObject.gameObject);
     }
@@ -295,7 +295,7 @@ public class GameManager : MonoBehaviour
         workMode = WorkMode.Build;
 
         if (switchModeToBuildSound != null)
-            switchModeToBuildSound.Play();
+            switchModeToBuildSound[UnityEngine.Random.Range(0, switchModeToBuildSound.Count)].Play();
     }
 
     public void SetWorkModeToDestroy()
@@ -303,7 +303,7 @@ public class GameManager : MonoBehaviour
         workMode = WorkMode.Collect;
 
         if (switchModeToCollectSound != null)
-            switchModeToCollectSound.Play();
+            switchModeToCollectSound[UnityEngine.Random.Range(0, switchModeToCollectSound.Count)].Play();
     }
 
     private void UpdatePreviewObjectPosition()
