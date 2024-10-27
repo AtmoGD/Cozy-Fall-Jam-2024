@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01fb192e3634e6f43b7362989b184e7a, type: 3}
+  m_Name: Eye
+  m_EditorClassIdentifier: 
+  objectType: 2
+  canBePlacedOn: 00000000
+  prefabs:
+  - {fileID: 5579219213677349378, guid: ed69419801f6b994594f3b17806dccf9, type: 3}
+  - {fileID: 1343910204222150783, guid: 97efd9d8a9ea3ea47b0ac37440524fe3, type: 3}
+  - {fileID: 698307611524706322, guid: 99274ea686464024f93e6c6d83baa251, type: 3}
+  - {fileID: 39502307981256799, guid: f05a487a11fbdbf4fa8e143ec4b3fbcc, type: 3}
+  - {fileID: 77044837473864670, guid: 5ca384ca231d60640bc4f9f8f529c7f5, type: 3}
+  - {fileID: 110567517209372249, guid: ffc765ceabf6dba479902a72ab29da30, type: 3}
+  previewPrefab: {fileID: 2400622269772354970, guid: dc9d89c766578c14fbd03d808277b774,
+    type: 3}
+  CanRotateX: 1
+  RotationXSteps: 2
+  RotationXMin: 0
+  RotationXMax: 360
+  CanRotateY: 1
+  RotationYSteps: 2
+  RotationYMin: 0
+  RotationYMax: 360
+  CanRotateZ: 1
+  RotationZSteps: 2
+  RotationZMin: 0
+  RotationZMax: 360
+  CanAddDistance: 1
+  distanceStep: 0.01
+  MinDistance: -0.1
+  MaxDistance: 0.1
+  startDistance: 0
+  CanScale: 1
+  scaleStep: 0.01
+  MinScale: 0.1
+  MaxScale: 2

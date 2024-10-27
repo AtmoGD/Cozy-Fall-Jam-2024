@@ -6,14 +6,21 @@ using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(GameManager))]
 [RequireComponent(typeof(CameraController))]
+[RequireComponent(typeof(UIController))]
 public class InputManger : MonoBehaviour
 {
     [SerializeField] private int UILayer = 5;
     [SerializeField] private float mouseDeltaSpeed = 0.1f;
     [SerializeField] private float rightClickTime = 0.2f;
+    [SerializeField] private ModifierElement qModifierElement;
+    [SerializeField] private ModifierElement wModifierElement;
+    [SerializeField] private ModifierElement eModifierElement;
+    [SerializeField] private ModifierElement rModifierElement;
+    [SerializeField] private ModifierElement tModifierElement;
     private GameManager gameManager;
     private CameraController camController;
     private CameraLookAtController camLookAtController;
+    private UIController uiController;
 
     private bool rightMousePressed = false;
     private float lastRightMousePressedTime = 0.0f;
@@ -31,6 +38,7 @@ public class InputManger : MonoBehaviour
         gameManager = GetComponent<GameManager>();
         camController = GetComponent<CameraController>();
         camLookAtController = GetComponent<CameraLookAtController>();
+        uiController = GetComponent<UIController>();
     }
 
     public void OnLeftClick(InputAction.CallbackContext context)
@@ -136,26 +144,44 @@ public class InputManger : MonoBehaviour
     public void OnQ(InputAction.CallbackContext context)
     {
         QPressed = context.ReadValueAsButton();
+
+        qModifierElement.SetActive(QPressed);
     }
 
     public void OnW(InputAction.CallbackContext context)
     {
         WPressed = context.ReadValueAsButton();
+
+        wModifierElement.SetActive(WPressed);
     }
 
     public void OnE(InputAction.CallbackContext context)
     {
         EPressed = context.ReadValueAsButton();
+
+        eModifierElement.SetActive(EPressed);
     }
 
     public void OnR(InputAction.CallbackContext context)
     {
         RPressed = context.ReadValueAsButton();
+
+        rModifierElement.SetActive(RPressed);
     }
 
     public void OnT(InputAction.CallbackContext context)
     {
         TPressed = context.ReadValueAsButton();
+
+        tModifierElement.SetActive(TPressed);
+    }
+
+    public void OnPause(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            uiController.SetRestartGameActive(true);
+        }
     }
 
     public bool IsPointerOverUIElement()

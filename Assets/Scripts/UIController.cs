@@ -48,6 +48,11 @@ public class UIController : MonoBehaviour
         restartGameAnimator.SetBool("Active", active);
     }
 
+    public void StartRestartGame()
+    {
+        restartGameAnimator.SetTrigger("Restart");
+    }
+
     public void SetPhotoModeActive(bool active)
     {
         photoModeAnimator.SetBool("Active", active);

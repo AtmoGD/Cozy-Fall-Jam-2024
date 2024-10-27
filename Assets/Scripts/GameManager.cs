@@ -290,7 +290,7 @@ public class GameManager : MonoBehaviour
 
     public void RotateObjectX(int direction)
     {
-        if (!selectedObjectData.CanRotateX) return;
+        if (!selectedObjectData || !selectedObjectData.CanRotateX) return;
 
         rotationFactor.x += direction * selectedObjectData.RotationXSteps;
         if (selectedObjectData.RotationXMax - selectedObjectData.RotationXMin >= 360)
@@ -302,7 +302,7 @@ public class GameManager : MonoBehaviour
 
     public void RotateObjectY(int direction)
     {
-        if (!selectedObjectData.CanRotateY) return;
+        if (!selectedObjectData || !selectedObjectData.CanRotateY) return;
 
         rotationFactor.y += direction * selectedObjectData.RotationYSteps;
         if (selectedObjectData.RotationYMax - selectedObjectData.RotationYMin >= 360)
@@ -314,7 +314,7 @@ public class GameManager : MonoBehaviour
 
     public void RotateObjectZ(int direction)
     {
-        if (!selectedObjectData.CanRotateZ) return;
+        if (!selectedObjectData || !selectedObjectData.CanRotateZ) return;
 
         rotationFactor.z += direction * selectedObjectData.RotationZSteps;
         if (selectedObjectData.RotationZMax - selectedObjectData.RotationZMin >= 360)

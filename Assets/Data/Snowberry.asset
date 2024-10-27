@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Snowberry
   m_EditorClassIdentifier: 
   objectType: 2
-  canBePlacedOn: 00000000
+  canBePlacedOn: 0000000001000000
   prefabs:
   - {fileID: 2313880694093962601, guid: 58e4a986d67ea7f42ab895dd2ccdba20, type: 3}
   previewPrefab: {fileID: 3274520044549741804, guid: 8793d1d5b5785e54ca7fa17e62f565b4,
@@ -32,8 +32,8 @@ MonoBehaviour:
   RotationZMax: 360
   CanAddDistance: 1
   distanceStep: 0.01
-  MinDistance: 0
-  MaxDistance: 0
+  MinDistance: -0.1
+  MaxDistance: 0.1
   startDistance: 0
   CanScale: 1
   scaleStep: 0.01

@@ -35,8 +35,8 @@ MonoBehaviour:
   RotationZMax: 360
   CanAddDistance: 1
   distanceStep: 0.01
-  MinDistance: 0
-  MaxDistance: 0
+  MinDistance: -0.1
+  MaxDistance: 0.1
   startDistance: 0
   CanScale: 1
   scaleStep: 0.02
