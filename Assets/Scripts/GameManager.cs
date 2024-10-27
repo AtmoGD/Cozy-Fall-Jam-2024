@@ -193,7 +193,8 @@ public class GameManager : MonoBehaviour
     private void CollectObject()
     {
         buildObjects.Remove(currentObject);
-        currentObject.ParentObject.ChildObjects.Remove(currentObject);
+        if (currentObject.ParentObject != null)
+            currentObject.ParentObject.ChildObjects.Remove(currentObject);
         Destroy(currentObject.gameObject);
         inventory.Find(item => item.data == currentObject.Data).count++;
 
