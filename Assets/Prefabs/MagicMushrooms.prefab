@@ -130,8 +130,8 @@ MonoBehaviour:
     timeMax: 15
     time: 1
   - state: 1
-    timeMin: 20
-    timeMax: 30
+    timeMin: 0.5
+    timeMax: 1
     time: 5
   - state: 0
     timeMin: 30
