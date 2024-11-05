@@ -76,6 +76,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 472135279536360147}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: a0349077f4e12914eb98d5181464f601,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6879894239798075370}
   m_SourcePrefab: {fileID: 100100000, guid: a0349077f4e12914eb98d5181464f601, type: 3}
 --- !u!1 &4029022263109246317 stripped
 GameObject:
@@ -105,3 +109,35 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 8691780276856062721, guid: a0349077f4e12914eb98d5181464f601, type: 3}
+--- !u!114 &6879894239798075370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4029022263109246317}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0beb7ae1ae6bc949b11f1a36f27ce8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: Mushroom
+  shrinkScale: {x: 0, y: 0, z: 0}
+  growScale: {x: 80, y: 80, z: 80}
+  stateData:
+  - state: 0
+    timeMin: 10
+    timeMax: 15
+    time: 1
+  - state: 1
+    timeMin: 20
+    timeMax: 30
+    time: 5
+  - state: 0
+    timeMin: 30
+    timeMax: 40
+    time: 1
+  - state: 2
+    timeMin: 10
+    timeMax: 20
+    time: 2
