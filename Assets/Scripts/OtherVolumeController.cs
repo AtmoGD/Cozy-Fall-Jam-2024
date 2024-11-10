@@ -8,6 +8,9 @@ using UnityEngine.Rendering.Universal;
 public class OtherVolumeController : MonoBehaviour
 {
     [SerializeField] private Volume volume;
+    [SerializeField] private float timeMin = 5f;
+    [SerializeField] private float timeMax = 25f;
+    [SerializeField] private float activeLerpSpeed = 1f;
     [SerializeField] private float chromaticSpeed = 1f;
     [SerializeField] private float chromaticMin = 0.5f;
     [SerializeField] private float chromaticMax = 1f;
@@ -21,28 +24,37 @@ public class OtherVolumeController : MonoBehaviour
     [SerializeField] private float lensDistortionRandomnessMax = 1f;
     [SerializeField] private float lensDistortionRandomness => UnityEngine.Random.Range(lensDistortionRandomnessMin, lensDistortionRandomnessMax);
     [SerializeField] private bool active = false;
+    private float timeLeft;
+    private float activeMultiplier = 1f;
 
     private void Update()
     {
-        volume.enabled = active;
+        timeLeft -= Time.deltaTime;
+        active = timeLeft > 0;
 
-        if (!active) return;
+        activeMultiplier = Mathf.Lerp(activeMultiplier, active ? 1 : 0, activeLerpSpeed * Time.deltaTime);
+
+        if (!active && activeMultiplier == 0)
+            return;
 
 
         if (volume.profile.TryGet(out ChromaticAberration chromaticAberration))
         {
-            chromaticAberration.intensity.value = Remap01(Mathf.PingPong((Time.time + chromaticRandomness) * chromaticSpeed, 1), chromaticMin, chromaticMax);
+            float chromaticTarget = Remap01(Mathf.PingPong((Time.time + chromaticRandomness) * chromaticSpeed, 1), chromaticMin, chromaticMax) * activeMultiplier;
+            chromaticAberration.intensity.value = chromaticTarget;
         }
 
         if (volume.profile.TryGet(out LensDistortion lensDistortion))
         {
-            lensDistortion.intensity.value = Remap01(Mathf.PingPong((Time.time + lensDistortionRandomness) * lensDistortionSpeed, 1), lensDistortionMin, lensDistortionMax);
+            float lensDistortionTarget = Remap01(Mathf.PingPong((Time.time + lensDistortionRandomness) * lensDistortionSpeed, 1), lensDistortionMin, lensDistortionMax) * activeMultiplier;
+            lensDistortion.intensity.value = lensDistortionTarget;
         }
     }
 
     public void SetEffectActive(bool active)
     {
         this.active = active;
+        timeLeft = UnityEngine.Random.Range(timeMin, timeMax);
     }
 
     private float Remap01(float value, float from1, float to1)

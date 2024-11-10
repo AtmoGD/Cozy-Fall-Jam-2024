@@ -159,7 +159,7 @@ public class GameManager : MonoBehaviour
     {
         currentObject = GetObjectUnderMouse();
 
-        if (DoRaycastForMushrooms())
+        if (workMode == WorkMode.Collect && DoRaycastForMushrooms())
         {
             otherController.SetEffectActive(true);
         }
@@ -250,11 +250,13 @@ public class GameManager : MonoBehaviour
 
     private void InstantiateSelectedObject()
     {
-        BuildObject instantietedObject = Instantiate(selectedObjectData.GetPrefab(), previewObject.transform.position, previewObject.transform.rotation, objectParent).GetComponent<BuildObject>();
+        int variantIndex = selectedObjectData.GetPrefabs().Count > 1 ? UnityEngine.Random.Range(0, selectedObjectData.GetPrefabs().Count) : 0;
+        BuildObject instantietedObject = Instantiate(selectedObjectData.GetPrefabs()[variantIndex], previewObject.transform.position, previewObject.transform.rotation, objectParent).GetComponent<BuildObject>();
 
         instantietedObject.Model.transform.localScale = previewObject.Model.transform.localScale;
         instantietedObject.Model.transform.localPosition = previewObject.Model.transform.localPosition;
         instantietedObject.Model.transform.rotation = previewObject.Model.transform.rotation;
+        instantietedObject.variantIndex = variantIndex;
 
         buildObjects.Add(instantietedObject);
         instantietedObject.SetParentObject(currentObject);
@@ -271,13 +273,10 @@ public class GameManager : MonoBehaviour
     {
         if (!currentObject) return;
 
-        GameObject newPrefab = currentObject.Data.GetPrefab();
-        int counter = 0;
-        while (currentObject == newPrefab && counter < 10)
-        {
-            newPrefab = currentObject.Data.GetPrefab();
-            counter++;
-        }
+        int newVariantIndex = (currentObject.variantIndex + 1) % currentObject.Data.GetPrefabs().Count;
+
+        currentObject.variantIndex = (currentObject.variantIndex + 1) % currentObject.Data.GetPrefabs().Count;
+        GameObject newPrefab = currentObject.Data.GetPrefabs()[newVariantIndex];
 
         GameObject newObj = Instantiate(newPrefab, currentObject.transform.position, currentObject.transform.rotation, objectParent);
         BuildObject newVariant = newObj.GetComponent<BuildObject>();
@@ -286,6 +285,7 @@ public class GameManager : MonoBehaviour
         newVariant.Model.transform.localPosition = currentObject.Model.transform.localPosition;
         newVariant.Model.transform.rotation = currentObject.Model.transform.rotation;
         newVariant.isBase = currentObject.isBase;
+        newVariant.variantIndex = newVariantIndex;
 
         buildObjects.Add(newVariant);
         buildObjects.Remove(currentObject);

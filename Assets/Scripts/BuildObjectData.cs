@@ -49,4 +49,9 @@ public class BuildObjectData : ScriptableObject
     {
         return prefabs[Random.Range(0, prefabs.Count)];
     }
+
+    public List<GameObject> GetPrefabs()
+    {
+        return prefabs;
+    }
 }

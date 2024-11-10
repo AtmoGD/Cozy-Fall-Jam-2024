@@ -25,7 +25,7 @@ public class MushroomController : MonoBehaviour
     public string id = "Mushroom";
     public Vector3 shrinkScale = Vector3.zero;
     public Vector3 growScale = Vector3.one;
-    public List<MushroomStateData> stateData = new List<MushroomStateData>();
+    public List<MushroomStateData> stateData = new();
 
     private int stateIndex = 0;
     private float stateStartTime = 0f;
@@ -34,6 +34,7 @@ public class MushroomController : MonoBehaviour
     {
         transform.localScale = shrinkScale;
         stateStartTime = Time.time;
+        stateData[stateIndex].time = UnityEngine.Random.Range(stateData[stateIndex].timeMin, stateData[stateIndex].timeMax);
     }
 
     void Update()

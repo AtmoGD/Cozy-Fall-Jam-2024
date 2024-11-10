@@ -17,6 +17,8 @@ public class BuildObject : MonoBehaviour
     public OutlineController OutlineController => outlineController;
     [SerializeField] private MeshRenderer meshRenderer;
     public MeshRenderer MeshRenderer => meshRenderer;
+    public int variantIndex = 0;
+    public int VariantIndex => variantIndex;
 
 
     [Header("Debugging (Do not modify)")]
